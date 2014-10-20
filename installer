@@ -1,0 +1,5 @@
+#!/bin/sh -w
+
+git clone git@github.com:vonglasow/mbp.git mbp
+ln -s ./mbp/Makefile Makefile
+make
