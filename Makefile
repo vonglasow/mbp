@@ -1,7 +1,7 @@
 bin := /usr/local/bin/
 lib := /usr/local/lib/
 
-projects   = Marvirc Dotfiles game-of-life php-tools mbp
+projects   = Marvirc Dotfiles game-of-life php-tools
 hoaproject = Ruler Console Bench
 atoum      = atoum
 
