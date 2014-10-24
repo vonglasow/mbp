@@ -6,7 +6,16 @@ projects   = Marvirc Dotfiles game-of-life php-tools
 hoaproject = Ruler Console Bench
 atoum      = atoum
 
-all: $(projects) $(hoaproject) $(atoum) $(pikacode)
+all: $(projects) $(hoaproject) $(atoum) $(pikacode) brew
+
+brew: /usr/local/bin/brew
+/usr/local/bin/brew:
+	ruby -e "$(curl -fsSL https://raw.github.com/Homebrew/homebrew/go/install)"
+	brew install caskroom/cask/brew-cask
+
+packer: brew
+	brew tap homebrew/binary
+	brew install packer
 
 composer:
 	curl -sS https://getcomposer.org/installer | php
