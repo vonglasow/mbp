@@ -5,7 +5,7 @@ pikacode   = atoum-skeleton sandbox
 projects   = Marvirc Dotfiles game-of-life php-tools gg
 hoaproject = Ruler Console Bench Math Test
 atoum      = atoum
-brew       = php56 the_silver_searcher highlight tmux ansible
+brew       = php56 the_silver_searcher highlight tmux ansible graphviz git hub nmap weechat gource
 
 all: $(projects) $(hoaproject) $(atoum) $(pikacode) $(brew)
 
@@ -25,36 +25,39 @@ virtualbox: brew /usr/bin/VBoxHeadless
 $(brew): brew
 	brew install $@
 
+rust: /usr/local/bin/rustc
+/usr/local/bin/rustc:
+	curl -sSf https://static.rust-lang.org/rustup.sh | sh
+
+atom: brew /usr/local/bin/atom
+/usr/local/bin/atom:
+	brew cask install atom
+
+composer: /usr/local/bin/composer
 /usr/local/bin/composer:
 	curl -sS https://getcomposer.org/installer | php
 	sudo mv composer.phar ${bin}composer
 
 Central:
 	git clone git@github.com:hoaproject/$@.git $@
-	sudo ln -s ${CURDIR}/$@/Hoa/Core/Bin/hoa ${bin}hoa
+	sudo ln -s ${CURDIR}/$@/Hoa/Cli/Bin/hoa ${bin}hoa
 	sudo ln -s ${CURDIR}/$@/Hoa ${lib}Hoa
 	git clone https://github.com/hoaproject/Contributions-Atoum-PraspelExtension.git atoum-praspel
 	sudo ln -s ${CURDIR}/atoum-praspel ${lib}atoum-praspel
 	sudo echo 'declare -x HOA_ATOUM_PRASPEL_EXTENSION=/usr/local/lib/atoum-praspel/' >> ~/.zshrc
 
-$(pikacode):
-	git clone git@pikacode.com:ashgenesis/$@.git $@
-	cd $@ && if [ -f ${CURDIR}/$@/Makefile ]; then make all; fi;
-
-$(projects): composer
-	git clone git@github.com:vonglasow/$@.git $@
-	cd $@ && if [ -f ${CURDIR}/$@/Makefile ]; then make all; fi;
-
-$(hoaproject): composer Central
-	git clone git@github.com:hoaproject/$@.git $@
-	cd $@ && if [ -f ${CURDIR}/$@/composer.json ]; then composer install; fi;
-
-$(atoum):
+atoum: /usr/local/bin/atoum
+/usr/local/bin/atoum:
 	git clone git@github.com:atoum/$@.git $@
 	ln -s ${CURDIR}/$@/bin/atoum ${bin}atoum
 
+keycastr: brew /opt/homebrew-cask/Caskroom/keycastr/0.8.2-bezel/KeyCastr.app
+/opt/homebrew-cask/Caskroom/keycastr/0.8.2-bezel/KeyCastr.app:
+	brew cask install keycastr
+
 clean-atoum:
 	rm -rf atoum
+	rm -rf ${bin}atoum
 
 clean-central:
 	sudo rm -rf ${lib}Hoa ${bin}hoa
